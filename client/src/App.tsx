@@ -1,10 +1,12 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from 'react'
+import { useState, useEffect, ChangeEvent } from 'react'
 import './App.css'
 import { PokemonCard } from './components/PokemonCard/PokemonCard'
 import {
   PokemonImages,
   TcgPlayer,
 } from './components/PokemonCard/pokemonCardTypes'
+import { Col, Row, Form, Input, Button } from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
 
 interface Pokemon {
   id: string
@@ -28,8 +30,7 @@ function App() {
     setSearchPokemon(e.target.value)
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmit = () => {
     getPokemonCards()
       .then((res) => res.json())
       .then(({ data }) => {
@@ -38,17 +39,26 @@ function App() {
       })
   }
 
-  // useEffect(() => {
-
-  // }, [])
-
   return (
     <div className='App'>
-      <form onSubmit={handleSubmit}>
-        <input value={searchPokemon} onChange={handleOnChange} />
-      </form>
+      <Row justify='center' align='middle'>
+        <Col span={12}>
+          <Form
+            style={{ display: 'flex', justifyContent: 'center' }}
+            onFinish={handleSubmit}>
+            <Form.Item name='pokemon'>
+              <Input value={searchPokemon} onChange={handleOnChange} />
+            </Form.Item>
 
-      <main>
+            <Form.Item wrapperCol={{ span: 14, offset: 4 }}>
+              <Button type='primary' htmlType='submit'>
+                <SearchOutlined />
+              </Button>
+            </Form.Item>
+          </Form>
+        </Col>
+      </Row>
+      <main className='grid-container'>
         {pokemonData.map((pokemon: Pokemon) => (
           <PokemonCard key={pokemon.id} pokemon={pokemon} />
         ))}
