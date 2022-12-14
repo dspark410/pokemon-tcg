@@ -19,6 +19,8 @@ function App() {
   const [searchPokemon, setSearchPokemon] = useState('')
   const [pokemonData, setPokemonData] = useState([])
 
+  const collection: any = [] || localStorage.getItem('collection')
+
   //https://api.pokemontcg.io/v2/cards
   //"https://api.pokemontcg.io/v2/cards?q=set.name:generations subtypes:mega"
 
@@ -59,7 +61,7 @@ function App() {
         </Col>
       </Row>
       <main className='grid-container'>
-        {pokemonData.map((pokemon: Pokemon) => (
+        {pokemonData.map((pokemon: Pokemon, index: number) => (
           <PokemonCard key={pokemon.id} pokemon={pokemon} />
         ))}
       </main>
