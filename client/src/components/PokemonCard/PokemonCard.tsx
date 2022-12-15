@@ -1,14 +1,20 @@
 import React, { useState, MouseEvent } from 'react'
 import { PokemonCardPricesInfo } from './PokemonCardPricesInfo/PokemonCardPricesInfo'
 import { PokemonInfo } from './pokemonCardTypes'
-import { Image, Button } from 'antd'
+import { Image } from 'antd'
 import { HeartFilled, HeartOutlined } from '@ant-design/icons'
 
 interface Pokemon {
   pokemon: PokemonInfo
+  addtoLocalStorage: (pokemon: PokemonInfo) => void
+  removefromLocalStorage: (id: string) => void
 }
 
-export const PokemonCard = ({ pokemon }: Pokemon) => {
+export const PokemonCard = ({
+  pokemon,
+  addtoLocalStorage,
+  removefromLocalStorage,
+}: Pokemon) => {
   const [showHeartIcon, setShowHeartIcon] = useState(false)
   const [addtoCollection, setAddToCollection] = useState(false)
 
@@ -22,11 +28,11 @@ export const PokemonCard = ({ pokemon }: Pokemon) => {
 
   const handleClick = () => {
     setAddToCollection(true)
-
+    addtoLocalStorage(pokemon)
     if (addtoCollection) {
       setAddToCollection(false)
+      removefromLocalStorage(pokemon.id)
     }
-    //localStorage.setItem('collection', JSON.stringify(collection))
   }
 
   return (
@@ -35,7 +41,7 @@ export const PokemonCard = ({ pokemon }: Pokemon) => {
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}>
       {/* <h1>{pokemon.name}</h1> */}
-      <img src={pokemon.images.small} />
+      <Image src={pokemon.images.large} />
       {showHeartIcon ? (
         <div className='add-collection-button'>
           {addtoCollection ? (
