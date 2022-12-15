@@ -19,9 +19,7 @@ interface Pokemon {
 function App() {
   const [searchPokemon, setSearchPokemon] = useState('')
   const [pokemonData, setPokemonData] = useState([])
-  const [collection, setCollection] = useState<PokemonInfo[]>(
-    [] || localStorage.getItem('collection')
-  )
+  const [collection, setCollection] = useState<PokemonInfo[]>([])
 
   //https://api.pokemontcg.io/v2/cards
   //"https://api.pokemontcg.io/v2/cards?q=set.name:generations subtypes:mega"
@@ -57,6 +55,13 @@ function App() {
     localStorage.setItem('collection', JSON.stringify(filteredCollection))
     setCollection(filteredCollection)
   }
+
+  useEffect(() => {
+    const getCollection = localStorage.getItem('collection')
+    if (!!getCollection) {
+      setCollection(JSON.parse(getCollection))
+    }
+  }, [])
 
   return (
     <div className='App'>
