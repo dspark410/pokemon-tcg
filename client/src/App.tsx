@@ -3,6 +3,7 @@ import './App.css'
 import { PokemonCard } from './components/PokemonCard/PokemonCard'
 import {
   PokemonImages,
+  PokemonInfo,
   TcgPlayer,
 } from './components/PokemonCard/pokemonCardTypes'
 import { Col, Row, Form, Input, Button } from 'antd'
@@ -18,6 +19,7 @@ interface Pokemon {
 function App() {
   const [searchPokemon, setSearchPokemon] = useState('')
   const [pokemonData, setPokemonData] = useState([])
+  const [collection, setCollection] = useState<PokemonInfo[]>([])
 
   //https://api.pokemontcg.io/v2/cards
   //"https://api.pokemontcg.io/v2/cards?q=set.name:generations subtypes:mega"
@@ -38,6 +40,28 @@ function App() {
         setPokemonData(data)
       })
   }
+  const addtoLocalStorage = (pokemon: PokemonInfo) => {
+    const copiedCollection = [...collection]
+    copiedCollection.push(pokemon)
+    localStorage.setItem('collection', JSON.stringify(copiedCollection))
+    setCollection(copiedCollection)
+  }
+
+  const removefromLocalStorage = (id: string) => {
+    const copiedCollection = [...collection]
+    const filteredCollection = copiedCollection.filter(
+      (collection) => collection.id !== id
+    )
+    localStorage.setItem('collection', JSON.stringify(filteredCollection))
+    setCollection(filteredCollection)
+  }
+
+  useEffect(() => {
+    const getCollection = localStorage.getItem('collection')
+    if (!!getCollection) {
+      setCollection(JSON.parse(getCollection))
+    }
+  }, [])
 
   return (
     <div className='App'>
@@ -60,7 +84,12 @@ function App() {
       </Row>
       <main className='grid-container'>
         {pokemonData.map((pokemon: Pokemon) => (
-          <PokemonCard key={pokemon.id} pokemon={pokemon} />
+          <PokemonCard
+            key={pokemon.id}
+            pokemon={pokemon}
+            addtoLocalStorage={() => addtoLocalStorage(pokemon)}
+            removefromLocalStorage={() => removefromLocalStorage(pokemon.id)}
+          />
         ))}
       </main>
     </div>
