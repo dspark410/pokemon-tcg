@@ -27,6 +27,7 @@ export interface TcgPlayer {
 }
 
 export interface PokemonInfo {
+  id: string
   name: string
   images: PokemonImages
   tcgplayer: TcgPlayer

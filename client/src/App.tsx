@@ -3,6 +3,7 @@ import './App.css'
 import { PokemonCard } from './components/PokemonCard/PokemonCard'
 import {
   PokemonImages,
+  PokemonInfo,
   TcgPlayer,
 } from './components/PokemonCard/pokemonCardTypes'
 import { Col, Row, Form, Input, Button } from 'antd'
@@ -18,8 +19,9 @@ interface Pokemon {
 function App() {
   const [searchPokemon, setSearchPokemon] = useState('')
   const [pokemonData, setPokemonData] = useState([])
-
-  const collection: any = [] || localStorage.getItem('collection')
+  const [collection, setCollection] = useState<PokemonInfo[]>(
+    [] || localStorage.getItem('collection')
+  )
 
   //https://api.pokemontcg.io/v2/cards
   //"https://api.pokemontcg.io/v2/cards?q=set.name:generations subtypes:mega"
@@ -39,6 +41,21 @@ function App() {
         console.log(data)
         setPokemonData(data)
       })
+  }
+  const addtoLocalStorage = (pokemon: PokemonInfo) => {
+    const copiedCollection = [...collection]
+    copiedCollection.push(pokemon)
+    localStorage.setItem('collection', JSON.stringify(copiedCollection))
+    setCollection(copiedCollection)
+  }
+
+  const removefromLocalStorage = (id: string) => {
+    const copiedCollection = [...collection]
+    const filteredCollection = copiedCollection.filter(
+      (collection) => collection.id !== id
+    )
+    localStorage.setItem('collection', JSON.stringify(filteredCollection))
+    setCollection(filteredCollection)
   }
 
   return (
@@ -61,8 +78,13 @@ function App() {
         </Col>
       </Row>
       <main className='grid-container'>
-        {pokemonData.map((pokemon: Pokemon, index: number) => (
-          <PokemonCard key={pokemon.id} pokemon={pokemon} />
+        {pokemonData.map((pokemon: Pokemon) => (
+          <PokemonCard
+            key={pokemon.id}
+            pokemon={pokemon}
+            addtoLocalStorage={() => addtoLocalStorage(pokemon)}
+            removefromLocalStorage={() => removefromLocalStorage(pokemon.id)}
+          />
         ))}
       </main>
     </div>
