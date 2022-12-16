@@ -31,4 +31,5 @@ export interface PokemonInfo {
   name: string
   images: PokemonImages
   tcgplayer: TcgPlayer
+  heart: boolean
 }
