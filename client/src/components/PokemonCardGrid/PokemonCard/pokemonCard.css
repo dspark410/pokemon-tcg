@@ -1,0 +1,11 @@
+.image-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.add-collection-button {
+  position: absolute;
+  top: 4%;
+  right: 5%;
+  z-index: 1000;
+}
