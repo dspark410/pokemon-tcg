@@ -1,23 +1,23 @@
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  justify-content: space-evenly;
-  justify-items: center;
-  align-content: space-evenly;
-  align-items: center;
-  grid-gap: 1rem;
-  margin: 0 auto;
-  width: 75%;
+.App {
+  position: relative;
 }
 
-.image-container {
-  position: relative;
+.go-back-button {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  padding: 0.5rem;
+  border-radius: 5px;
+  background-color: #1677ff;
+  color: #fff;
+}
+
+.go-back-button:hover {
   cursor: pointer;
 }
 
-.add-collection-button {
+.see-collection-button {
   position: absolute;
-  top: 4%;
+  top: 5%;
   right: 5%;
-  z-index: 1000;
 }

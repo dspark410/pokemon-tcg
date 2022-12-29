@@ -1,8 +1,9 @@
-import React, { useState, MouseEvent } from 'react'
+import { useState, useEffect } from 'react'
 import { PokemonCardPricesInfo } from './PokemonCardPricesInfo/PokemonCardPricesInfo'
 import { PokemonInfo } from './pokemonCardTypes'
 import { Image } from 'antd'
 import { HeartFilled, HeartOutlined } from '@ant-design/icons'
+import './pokemonCard.css'
 
 interface Pokemon {
   pokemon: PokemonInfo
@@ -35,6 +36,10 @@ export const PokemonCard = ({
     }
   }
 
+  useEffect(() => {
+    if (pokemon.heart) setAddToCollection(true)
+  }, [])
+
   return (
     <section
       className='image-container'
@@ -44,7 +49,7 @@ export const PokemonCard = ({
       <Image src={pokemon.images.large} />
       {showHeartIcon ? (
         <div className='add-collection-button'>
-          {addtoCollection ? (
+          {addtoCollection && pokemon.heart ? (
             <span onClick={handleClick}>
               <HeartFilled style={{ fontSize: '1.75rem', color: '#EBEBEB' }} />
             </span>
