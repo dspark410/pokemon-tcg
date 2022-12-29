@@ -1,3 +1,9 @@
+.collection-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+}
+
 .collection-grid-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -6,6 +12,9 @@
   align-content: space-evenly;
   align-items: center;
   grid-gap: 1rem;
-  margin: 2rem auto;
-  width: 75%;
+  flex-basis: 60%;
+}
+
+.price-container {
+  flex-basis: 20%;
 }
